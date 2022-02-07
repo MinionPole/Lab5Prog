@@ -1,0 +1,40 @@
+<LabWork>
+<name>  Math</name>
+
+<Coordinates>
+<x>10    </x>
+<y>15</y>
+</Coordinates>"
+
+<minimalPoint>  5</minimalPoint>
+<personalQualitiesMinimum>   3.0   </personalQualitiesMinimum>
+<personalQualitiesMaximum>1000</personalQualitiesMaximum>
+<Difficulty>   </Difficulty>
+
+<Discipline>
+<name>Math</name>
+<labsCount>5</labsCount>
+</Discipline>
+
+</LabWork>
+
+
+<LabWork>
+<name>Phys</name>
+
+<Coordinates>")
+<x>10    </x>
+<y>15</y>
+</Coordinates>"
+
+<minimalPoint>  1</minimalPoint>
+<personalQualitiesMinimum>   2.0   </personalQualitiesMinimum>
+<personalQualitiesMaximum>8</personalQualitiesMaximum>
+<Difficulty>VERY_HARD   </Difficulty>
+
+<Discipline>
+<name>Phys</name>
+<labsCount>2</labsCount>
+</Discipline>
+
+</LabWork>
