@@ -15,13 +15,15 @@ public class OurTree {
         for(LabWork it : Labs){
             it.print_XML(a);
             a.println("________________________________");
+            a.flush();
         }
     }
 
     public void replace_same_ID(LabWork New){
         for(LabWork it : Labs){
             if(it.getId().equals(New.getId())){
-                it = New;
+                Labs.remove(it);
+                Labs.add(New);
                 break;
             }
         }
@@ -36,12 +38,14 @@ public class OurTree {
         }
     }
 
-    public TreeSet<LabWork> readerFiles(BufferedReader reader) throws IOException{
-        TreeSet<LabWork> retTree = new TreeSet<LabWork>();
+    public void readerFiles(BufferedReader reader) throws IOException{
+        if(Labs == null)
+            Labs = new TreeSet<LabWork>();
+        TreeSet<LabWork> retTree = Labs;
 
         while(reader.ready()){
             String b = reader.readLine();
-            if(b.indexOf("<LabWork>") != -1){
+            if(b.contains("<LabWork>")){
                 LabWork temp = null;
                 temp = temp.readerFiles(reader);
                 retTree.add(temp);
@@ -49,7 +53,6 @@ public class OurTree {
             }
         }
 
-        return retTree;
     }
 
     public void Clear_all_labs(){
@@ -57,7 +60,8 @@ public class OurTree {
     }
 
     static public void give_help() throws IOException{
-        InputStreamReader testin = new InputStreamReader(new FileInputStream("C:\\Users\\romay\\Desktop\\Лабы\\Программирование\\lab5\\src\\Help.txt"));
+//        InputStreamReader testin = new InputStreamReader(new FileInputStream("C:\\Users\\romay\\Desktop\\Лабы\\Программирование\\lab5\\src\\Help.txt"));
+        InputStreamReader testin = new InputStreamReader(new FileInputStream("Help.txt"));
         BufferedReader reader = new BufferedReader(testin);
         PrintWriter testout = new PrintWriter(System.out);
         while(reader.ready()){
@@ -105,14 +109,21 @@ public class OurTree {
     }
 
     public void analize(String b) throws IOException {
-        if(b.indexOf("help") != -1){
+        if(b.contains("help")){
             OurTree.give_help();
         }
-        if(b.indexOf("show") != -1 || b.indexOf("print_ascending") != -1){
+
+        if(b.contains("remove_by_id")){
+            b = b + "{";
+            Integer updated_id = MyFun.retCorrectINT(b, "id", -(1 << 31), "d", "{");
+            this.delete_same_ID(updated_id);
+        }
+
+        if(b.contains("show") || b.contains("print_ascending")){
             this.print_all_labs(new PrintWriter(System.out));
         }
 
-        if(b.indexOf("add") != -1){
+        if(b.contains("add")){
 
             String path = MyFun.SubAndDelSpac(b, "{", "}");
             while(!MyFun.isCorrectPath(path)){
@@ -122,7 +133,7 @@ public class OurTree {
             this.readerFiles(new BufferedReader(new InputStreamReader(new FileInputStream(path))));
         }
 
-        if(b.indexOf("update") != -1){
+        if(b.contains("update")){
             String path = b.substring(b.indexOf('{') + 1, b.indexOf('}'));
             while(!MyFun.isCorrectPath(path)){
                 System.out.println("не могу открыть файл, введите корректный путь");
@@ -135,21 +146,24 @@ public class OurTree {
             this.replace_same_ID(temp);
         }
 
-        if(b.indexOf("remove_by_id") != -1){
-            b = b + '{';
-            Integer updated_id = MyFun.retCorrectINT(b, "id", -(1 << 31), "d", "{");
-            this.delete_same_ID(updated_id);
-        }
 
-        if(b.indexOf("clear") != -1){
+        if(b.contains("clear")){
             this.Clear_all_labs();
         }
 
-        if(b.indexOf("save") != -1){
-            this.print_all_labs(new PrintWriter(new FileOutputStream("C:\\Users\\romay\\Desktop\\Лабы\\Программирование\\lab5\\src\\ForSave")));
+        if(b.contains("save")){
+            //String ForSaveS = "C:\\Users\\romay\\Desktop\\Лабы\\Программирование\\lab5\\src\\ForSave";
+            String ForSaveS = "ForSave";
+            this.print_all_labs(new PrintWriter(new FileOutputStream("ForSaveS")));
         }
 
-        if(b.indexOf("add_if_max") != -1){
+        if(b.contains("execute_script")){
+            b = b + '}';
+            b = MyFun.SubAndDelSpac(b, " ", "}");
+            MyFun.AlwaysReader(new BufferedReader(new InputStreamReader(new FileInputStream(b))), this);
+        }
+
+        if(b.contains("add_if_max")){
             String path = b.substring(b.indexOf('{') + 1, b.indexOf('}'));
             while(!MyFun.isCorrectPath(path)){
                 System.out.println("не могу открыть файл, введите корректный путь");
@@ -159,7 +173,7 @@ public class OurTree {
             temp = LabWork.readerFiles(new BufferedReader(new InputStreamReader(new FileInputStream(path))));
             this.add_if_max(temp);
        }
-        if(b.indexOf("add_if_min") != -1){
+        if(b.contains("add_if_min")){
             String path = b.substring(b.indexOf('{') + 1, b.indexOf('}'));
             while(!MyFun.isCorrectPath(path)){
                 System.out.println("не могу открыть файл, введите корректный путь");
@@ -169,7 +183,7 @@ public class OurTree {
             temp = LabWork.readerFiles(new BufferedReader(new InputStreamReader(new FileInputStream(path))));
             this.add_if_min(temp);
         }
-        if(b.indexOf("remove_lower") != -1){
+        if(b.contains("remove_lower")){
             String path = b.substring(b.indexOf('{') + 1, b.indexOf('}'));
             while(!MyFun.isCorrectPath(path)){
                 System.out.println("не могу открыть файл, введите корректный путь");
@@ -180,7 +194,7 @@ public class OurTree {
             this.removerLow(temp);
         }
 
-        if(b.indexOf("sum_of_minimal_point") != -1){
+        if(b.contains("sum_of_minimal_point")){
             System.out.println(this.sum_of_minimal_point());
         }
 

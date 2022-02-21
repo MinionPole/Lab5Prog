@@ -40,7 +40,8 @@ public class MyFun {
 
     public static float retCorrectFloat  (String b, String par, int min_gr, String fs, String sec)throws IOException{
         float temp=0;
-        while(b.indexOf("<") != -1){
+        
+        while(true){
             b = MyFun.SubAndDelSpac(b, fs, sec);
 
             if(MyFun.isFloat(b) && Float.parseFloat(b) > min_gr){
@@ -55,9 +56,9 @@ public class MyFun {
         return temp;
     }
 
-    public static int retCorrectINT  (String b, String par, int min_gr, String fs, String sec)throws IOException{
+    public static int   retCorrectINT  (String b, String par, int min_gr, String fs, String sec)throws IOException{
         int temp=0;
-        while(b.indexOf("<") != -1){
+        while(true){
             b = MyFun.SubAndDelSpac(b, fs, sec);
 
             if(MyFun.isINT(b) && Integer.parseInt(b) > min_gr){
@@ -74,7 +75,7 @@ public class MyFun {
 
     public static Long retCorrectLong  (String b, String par, int min_gr, String fs, String sec)throws IOException{
         long temp=0;
-        while(b.indexOf("<") != -1){
+        while(true){
             b = MyFun.SubAndDelSpac(b, fs, sec);
 
             if(MyFun.isLong(b) && Long.parseLong(b) > min_gr){
@@ -90,14 +91,14 @@ public class MyFun {
     }
 
     public static String retCorrectName  (String b, String fs, String sec)throws IOException{
-        while(b.indexOf("<") != -1){
+        while(true){
             b = MyFun.SubAndDelSpac(b, fs, sec);
             if(ISNULL(b)){
                 System.out.println("В name введено неверное значение, введите иное в том же формате");
                 b = MyFun.StandartIn.readLine();
             }
             else {
-                return b;
+                break;
             }
         }
         return b;
@@ -121,8 +122,10 @@ public class MyFun {
             String b;
             b = reader.readLine();
 
-            if(b.indexOf("exit") != -1)
+            if(b.contains("exit")) {
+                System.out.flush();
                 break;
+            }
             else
                 MainTree.analize(b);
         }

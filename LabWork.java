@@ -51,34 +51,34 @@ public class LabWork implements Comparable<LabWork>{
             String b = reader.readLine();
 
 
-            if(b.indexOf("<Coordinates>") != -1){
-                TempWork.coordinates = TempWork.coordinates.readerFiles(reader);
+            if(b.contains("<Coordinates>")){
+                TempWork.coordinates = Coordinates.readerFiles(reader);
                 continue;
             }
-            if(b.indexOf("<Difficulty>") != -1){
-                TempWork.difficulty = TempWork.difficulty.readerDif(b);
+            if(b.contains("<Difficulty>")){
+                TempWork.difficulty = Difficulty.readerDif(b);
                 continue;
             }
-            if(b.indexOf("<Discipline>") != -1){
-                TempWork.discipline = TempWork.discipline.readerFiles(reader);
+            if(b.contains("<Discipline>")){
+                TempWork.discipline = Discipline.readerFiles(reader);
                 break;
             }
 
-            if(b.indexOf("<name>") != -1){
+            if(b.contains("<name>")){
                 TempWork.name = MyFun.retCorrectName(b, ">", "</");
                 continue;
             }
 
-            if(b.indexOf("<minimalPoint>") != -1){
+            if(b.contains("<minimalPoint>")){
                 TempWork.minimalPoint = MyFun.retCorrectFloat(b, "minimalPoint", 0, ">", "</");
             }
 
-            if(b.indexOf("<personalQualitiesMinimum>") != -1){
+            if(b.contains("<personalQualitiesMinimum>")){
                 TempWork.personalQualitiesMinimum = MyFun.retCorrectFloat(b, "personalQualitiesMinimum", 0, ">", "</");
                 continue;
             }
 
-            if(b.indexOf("<personalQualitiesMaximum>") != -1){
+            if(b.contains("<personalQualitiesMaximum>")){
                 TempWork.personalQualitiesMaximum = MyFun.retCorrectFloat(b, "personalQualitiesMaximum", 0, ">", "</");
                 continue;
             }
